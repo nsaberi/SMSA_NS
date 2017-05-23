@@ -1,0 +1,96 @@
+AMTK_DIR = /home/rejkelly/AMSR2/SND_AMSR2_HDF5/AMTK_AMSR2_1.14
+HDF5_DIR = /usr/local/lib64/hdf5-1.8.5
+SZIP_DIR = /usr/local/lib/szip-2.1
+
+CC = gcc
+F90 = gfortran
+
+CCOPTS = -O3 -cpp
+#CCOPTSLD = -static
+
+MAKEDEPEND = makedepend
+
+F90OPTS =
+
+INCS += -I$(AMTK_DIR)/include
+INCS += -I$(AMTK_DIR)/src
+INCS += -I$(HDF5_DIR)/include
+
+LIBD += -L$(AMTK_DIR)/lib
+LIBD += -L$(HDF5_DIR)/lib
+LIBD += -L$(SZIP_DIR)/lib
+
+LIBS += -lAMSR2 -lhdf5 /usr/local/lib/szip-2.1/lib/libsz.a -lz -lm
+
+LD = gcc
+
+EXENAME = ./SD_SWE_SMSA_v2.0.2
+
+CSRCS = granule_v5_EORC_20160101_v2.0.1.c set_dt_str_utc_.c error_end.c funct_jdate.c funct_lltoease2.c ReadDynamicInputs.c WriteDynamicOutputs.c retrieve_swe_sd_v2.0.2.c UpdateStorageArrays.c
+
+#OBJF = dmrtml-1.6/czergg.o dmrtml-1.6/dielectric_constant.o dmrtml-1.6/dmrtparameters.o dmrtml-1.6/fresnel.o dmrtml-1.6/soil.o dmrtml-1.6/disort.o dmrtml-1.6/dmrtml.o dmrtml-1.6/dmrtml_main_call.o 
+
+OBJSC += $(CSRCS:.c=.o) 
+#OBJS += $(dmrt)
+
+#$(FSRCS:.f=.o)
+
+.c.o : 
+	$(CC) $(CCOPTS) $(INCS) -c $<
+
+
+$(EXENAME) : $(OBJSC)
+	$(LD) -o $(EXENAME) -static $(OBJSC) $(LIBD) $(LIBS) 
+	rm -f *.o
+	@echo ""
+	@echo "created" $@
+
+clean :
+	rm -f core *.o
+
+
+allclean : clean
+	rm -f $(EXENAME)
+
+
+depend :
+	$(MAKEDEPEND) -- $(CCOPTS) -- $(CSRCS) $(INCS)
+
+
+# DO NOT DELETE
+
+granule_v5_EORC_20160101_v2.0.1: /usr/include/stdio.h /usr/include/features.h
+granule_v5_EORC_20160101_v2.0.1: /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h
+granule_v5_EORC_20160101_v2.0.1: /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h
+granule_v5_EORC_20160101_v2.0.1: /usr/include/bits/types.h /usr/include/bits/typesizes.h
+granule_v5_EORC_20160101_v2.0.1: /usr/include/libio.h /usr/include/_G_config.h
+granule_v5_EORC_20160101_v2.0.1: /usr/include/wchar.h /usr/include/bits/wchar.h
+granule_v5_EORC_20160101_v2.0.1: /usr/include/gconv.h /usr/include/bits/stdio_lim.h
+granule_v5_EORC_20160101_v2.0.1: /usr/include/bits/sys_errlist.h /usr/include/string.h global.h
+granule_v5_EORC_20160101_v2.0.1: /usr/include/sys/types.h /usr/include/time.h
+granule_v5_EORC_20160101_v2.0.1: /usr/include/endian.h /usr/include/bits/endian.h
+granule_v5_EORC_20160101_v2.0.1: /usr/include/sys/select.h /usr/include/bits/select.h
+granule_v5_EORC_20160101_v2.0.1: /usr/include/bits/sigset.h /usr/include/bits/time.h
+granule_v5_EORC_20160101_v2.0.1: /usr/include/sys/sysmacros.h /usr/include/bits/pthreadtypes.h
+granule_v5_EORC_20160101_v2.0.1: /usr/include/sys/stat.h /usr/include/bits/stat.h
+granule_v5_EORC_20160101_v2.0.1: /usr/include/fcntl.h /usr/include/bits/fcntl.h
+granule_v5_EORC_20160101_v2.0.1: /usr/include/math.h /usr/include/bits/huge_val.h
+granule_v5_EORC_20160101_v2.0.1: /usr/include/bits/mathdef.h /usr/include/bits/mathcalls.h
+set_dt_str_utc_.o: /usr/include/stdio.h /usr/include/features.h
+set_dt_str_utc_.o: /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h
+set_dt_str_utc_.o: /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h
+set_dt_str_utc_.o: /usr/include/bits/types.h /usr/include/bits/typesizes.h
+set_dt_str_utc_.o: /usr/include/libio.h /usr/include/_G_config.h
+set_dt_str_utc_.o: /usr/include/wchar.h /usr/include/bits/wchar.h
+set_dt_str_utc_.o: /usr/include/gconv.h /usr/include/bits/stdio_lim.h
+set_dt_str_utc_.o: /usr/include/bits/sys_errlist.h /usr/include/time.h
+error_end.o: /usr/include/stdio.h /usr/include/features.h
+error_end.o: /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h
+error_end.o: /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h
+error_end.o: /usr/include/bits/types.h /usr/include/bits/typesizes.h
+error_end.o: /usr/include/libio.h /usr/include/_G_config.h
+error_end.o: /usr/include/wchar.h /usr/include/bits/wchar.h
+error_end.o: /usr/include/gconv.h /usr/include/bits/stdio_lim.h
+error_end.o: /usr/include/bits/sys_errlist.h
+
+
